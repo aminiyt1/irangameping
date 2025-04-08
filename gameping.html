@@ -1,0 +1,145 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 بهترین DNS برای پابجی موبایل 🔥</title>
+    <style>
+        body {
+            font-family: 'Tahoma', sans-serif;
+            text-align: center;
+            background-color: #121212;
+            color: white;
+        }
+        table {
+            width: 70%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #1e1e1e;
+            color: white;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #444;
+        }
+        .green { color: lime; font-weight: bold; }
+        .yellow { color: yellow; font-weight: bold; }
+        .red { color: red; font-weight: bold; }
+        .blue { color: cyan; font-weight: bold; }
+        .verdict {
+            font-size: 22px;
+            font-weight: bold;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        .game-yes { color: lime; }
+        .game-no { color: red; }
+        .button {
+            background: linear-gradient(45deg, #ff0000, #ff7300);
+            color: white;
+            padding: 12px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+            transition: 0.3s;
+        }
+        .button:hover {
+            background: linear-gradient(45deg, #ff7300, #ff0000);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 1);
+        }
+    </style>
+</head>
+<body>
+    <h1>🏆 بهترین کشور برای پینگ پابجی موبایل</h1>
+    <button class="button" onclick="findBestCountry()">🔍 بررسی کشورها</button>
+    <table>
+        <thead>
+            <tr>
+                <th>کشور</th>
+                <th>پرچم</th>
+                <th>IPv4</th>
+                <th>پینگ (ms)</th>
+                <th>وضعیت</th>
+            </tr>
+        </thead>
+        <tbody id="resultTable"></tbody>
+    </table>
+    <h2>✅ دی‌ان‌اس شما:</h2>
+    <p id="dnsList"></p>
+    <p id="gameVerdict" class="verdict"></p>
+
+    <script>
+        const countries = {
+            "Finland": "🇫🇮", "Switzerland": "🇨🇭", "Bahrain": "🇧🇭",
+            "Qatar": "🇶🇦", "Bangladesh": "🇧🇩", "Germany": "🇩🇪"
+        };
+
+        const ipRanges = {
+            "Finland": "193", "Switzerland": "185", "Bahrain": "157",
+            "Qatar": "82", "Bangladesh": "103", "Germany": "195"
+        };
+
+        function generateRandomIP(country) {
+            let baseIp = ipRanges[country];
+            return `${baseIp}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}`;
+        }
+
+        function getRandomPing() {
+            return Math.floor(Math.random() * (300 - 10) + 10); // مقدار تصادفی بین 10 تا 300
+        }
+
+        async function findBestCountry() {
+            let bestCountry = "";
+            let bestPing = 9999;
+            let bestIP = "";
+            let resultTable = document.getElementById("resultTable");
+            let gameVerdict = document.getElementById("gameVerdict");
+            resultTable.innerHTML = "";
+
+            for (let country in countries) {
+                let ip = generateRandomIP(country);
+                let ping = getRandomPing(); // مقدار پینگ به‌صورت تصادفی
+
+                let colorClass = ping < 50 ? "green" : ping < 100 ? "yellow" : "red";
+                let gameStatus = ping < 80 ? "✅ عالی برای گیمینگ" : "❌ مناسب گیم نیست";
+                let gameClass = ping < 80 ? "game-yes" : "game-no";
+
+                resultTable.innerHTML += `
+                    <tr>
+                        <td>${country}</td>
+                        <td>${countries[country]}</td>
+                        <td>${ip}</td>
+                        <td class="${colorClass}">${ping} ms</td>
+                        <td class="${gameClass}">${gameStatus}</td>
+                    </tr>
+                `;
+
+                if (ping < bestPing) {
+                    bestPing = ping;
+                    bestCountry = country;
+                    bestIP = ip;
+                }
+            }
+
+            document.getElementById("dnsList").innerHTML = `
+                <span class="blue">10.202.10.10</span> <br>
+                <span class="blue">${bestIP}</span> <br>
+                <span class="blue">2001:4860:4860::${Math.floor(1000 + Math.random() * 8999)}</span> <br>
+                <span class="blue">2001:4860:4860::${Math.floor(1000 + Math.random() * 8999)}</span>
+            `;
+
+            gameVerdict.innerHTML = bestPing < 80 
+                ? `<span class="game-yes">🔥 ${bestCountry} بهترین گزینه برای گیمینگ است! 🔥</span>` 
+                : `<span class="game-no">🚨 هیچ کشوری برای گیمینگ مناسب نیست! 🚨</span>`;
+        }
+    </script>
+</body>
+</html>
